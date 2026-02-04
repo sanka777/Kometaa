@@ -2453,9 +2453,10 @@
             "title": "template_variables"
         },
         "template-variables-playlists": {
-            "type": "array",
+            "type": "object",
             "additionalProperties": true,
             "properties": {
+                "m3u": { "type": "string", "description": "Path to an .m3u file used by the m3u builder." }
             },
             "required": [
             ],

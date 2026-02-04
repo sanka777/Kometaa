@@ -2,7 +2,7 @@ import os, re, time
 from arrapi import ArrException
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
-from modules import anidb, anilist, icheckmovies, imdb, letterboxd, mal, mojo, plex, radarr, reciperr, sonarr, tautulli, tmdb, trakt, tvdb, mdblist, util
+from modules import anidb, anilist, icheckmovies, imdb, letterboxd, mal, mojo, m3u, plex, radarr, reciperr, sonarr, tautulli, tmdb, trakt, tvdb, mdblist, util
 from modules.util import Failed, FilterFailed, NonExisting, NotScheduled, NotScheduledRange, Deleted
 from modules.overlay import Overlay
 from modules.poster import KometaImage
@@ -17,7 +17,7 @@ logger = util.logger
 advance_new_agent = ["item_metadata_language", "item_use_original_title"]
 advance_show = ["item_episode_sorting", "item_keep_episodes", "item_delete_episodes", "item_season_display", "item_episode_sorting"]
 all_builders = anidb.builders + anilist.builders + icheckmovies.builders + imdb.builders + \
-               letterboxd.builders + mal.builders + mojo.builders + plex.builders + reciperr.builders + tautulli.builders + \
+               letterboxd.builders + mal.builders + mojo.builders + m3u.builders + plex.builders + reciperr.builders + tautulli.builders + \
                tmdb.builders + trakt.builders + tvdb.builders + mdblist.builders + radarr.builders + sonarr.builders
 show_only_builders = [
     "tmdb_network", "tmdb_show", "tmdb_show_details", "tvdb_show", "tvdb_show_details", "tmdb_airing_today",
@@ -27,7 +27,7 @@ movie_only_builders = [
     "letterboxd_list", "letterboxd_list_details", "icheckmovies_list", "icheckmovies_list_details", "stevenlu_popular",
     "tmdb_collection", "tmdb_collection_details", "tmdb_movie", "tmdb_movie_details", "tmdb_now_playing", "item_edition",
     "tvdb_movie", "tvdb_movie_details", "tmdb_upcoming", "trakt_boxoffice", "reciperr_list", "radarr_all", "radarr_taglist",
-    "mojo_world", "mojo_domestic", "mojo_international", "mojo_record", "mojo_all_time", "mojo_never"
+    "mojo_world", "mojo_domestic", "mojo_international", "mojo_record", "mojo_all_time", "mojo_never", "m3u"
 ]
 music_only_builders = ["item_album_sorting"]
 summary_details = [
@@ -1094,6 +1094,8 @@ class CollectionBuilder:
                     self._tvdb(method_name, method_data)
                 elif method_name in mdblist.builders:
                     self._mdblist(method_name, method_data)
+                elif method_name in m3u.builders:
+                    self._m3u(method_name, method_data)
                 elif method_name == "filters":
                     self._filters(method_name, method_data)
                 else:
@@ -2010,6 +2012,12 @@ class CollectionBuilder:
                 else:
                     raise Failed(str(e))
 
+    def _m3u(self, method_name, method_data):
+        for file_path in util.get_list(method_data, split=False):
+            if not file_path:
+                raise Failed(f"{self.Type} Error: {method_name} attribute is blank")
+            self.builders.append((method_name, file_path))
+
     def _reciperr(self, method_name, method_data):
         if method_name == "reciperr_list":
             for reciperr_list in self.config.Reciperr.validate_list(method_data):
@@ -2243,6 +2251,8 @@ class CollectionBuilder:
                 return self.config.Cache.query_list_ids(list_key)
         if "plex" in method:
             ids = self.library.get_rating_keys(method, value, self.playlist)
+        elif method == "m3u":
+            ids = m3u.get_m3u_ids(value, self.libraries, self.builder_level)
         elif "tautulli" in method:
             ids = self.library.Tautulli.get_rating_keys(value, self.playlist)
         elif "anidb" in method:

@@ -144,3 +144,23 @@ playlists:
     libraries: Movies, TV Shows
     trakt_list: https://trakt.tv/users/tomfin46/lists/star-wars-the-clone-wars-chronological-episode-order
 ``` 
+
+## Exemple avec un fichier M3U
+
+Vous pouvez alimenter une playlist avec un fichier `.m3u` contenant des chemins, des URLs Plex ou des titres.
+
+```yaml
+playlists:
+  Ma Playlist M3U:
+    sync_mode: sync
+    libraries: Movies, TV Shows
+    m3u: /data/playlists/ma-playlist.m3u
+```
+
+```m3u
+#EXTM3U
+#EXTINF:-1,Alien (1979)
+/media/Movies/Alien (1979)/Alien.mkv
+#EXTINF:-1,Blade Runner (1982)
+https://app.plex.tv/desktop/#!/server/xxxxx/details?key=/library/metadata/67890
+```

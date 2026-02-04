@@ -54,6 +54,7 @@ The majority of Smart and Manual Builders utilize the same Builder Attributes. A
 | [`plex_watchlist`](watchlist.md)           | Gets every movie/show in your Watchlist.                                                                                                                     | :fontawesome-solid-circle-check:{ .green } | :fontawesome-solid-circle-check:{ .green } | :fontawesome-solid-circle-check:{ .green } |
 | [`plex_pilots`](pilots.md)                 | Gets the first episode of every show in your library                                                                                                         |  :fontawesome-solid-circle-xmark:{ .red }  | :fontawesome-solid-circle-check:{ .green } | :fontawesome-solid-circle-check:{ .green } |
 | [`plex_collectionless`](collectionless.md) | Gets every movie/show that is not in a collection                                                                                                            | :fontawesome-solid-circle-check:{ .green } | :fontawesome-solid-circle-check:{ .green } |  :fontawesome-solid-circle-xmark:{ .red }  |
+| [`m3u`](m3u.md)                            | Lit un fichier `.m3u` et mappe les entrées vers des items Plex                                                                                                | :fontawesome-solid-circle-check:{ .green } | :fontawesome-solid-circle-check:{ .green } | :fontawesome-solid-circle-check:{ .green } |
 
 
 {%
@@ -63,5 +64,4 @@ The majority of Smart and Manual Builders utilize the same Builder Attributes. A
 {%
     include-markdown "./sort-options.md"
 %}
-
 

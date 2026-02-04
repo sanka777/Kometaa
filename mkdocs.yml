@@ -328,6 +328,7 @@ nav:
         - Pilots: files/builders/plex/pilots.md
         - Search: files/builders/plex/search.md
         - Watchlist: files/builders/plex/watchlist.md
+        - M3U: files/builders/plex/m3u.md
       - TMDb:
         - Overview: files/builders/tmdb/overview.md
         - Standard:
